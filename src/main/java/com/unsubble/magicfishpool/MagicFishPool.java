@@ -14,9 +14,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.Random;
 import java.util.logging.Level;
 
 public final class MagicFishPool extends JavaPlugin {
+    private Random random;
 
     @Override
     public void onEnable() {
@@ -71,5 +73,17 @@ public final class MagicFishPool extends JavaPlugin {
     @Contract("_ -> new")
     public static @NotNull String formatStringColor(@NotNull String str) {
         return ChatColor.translateAlternateColorCodes('&', str);
+    }
+
+    public Random getRandom() {
+        synchronized (this) {
+            if (random == null)
+                random = new Random();
+        }
+        return random;
+    }
+
+    public static @NotNull MagicFishPool getInstance() {
+        return getPlugin(MagicFishPool.class);
     }
 }
