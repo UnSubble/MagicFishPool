@@ -1,5 +1,10 @@
 package com.unsubble.magicfishpool;
 
+import com.unsubble.magicfishpool.handlers.ConfigHandler;
+import com.unsubble.magicfishpool.handlers.ItemConfigHandler;
+import com.unsubble.magicfishpool.handlers.MainConfigHandler;
+import com.unsubble.magicfishpool.managers.ItemManager;
+import com.unsubble.magicfishpool.managers.LocationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,6 +23,8 @@ import java.util.Random;
 import java.util.logging.Level;
 
 public final class MagicFishPool extends JavaPlugin {
+    private ItemConfigHandler itemConfigHandler;
+    private MainConfigHandler mainConfigHandler;
     private Random random;
 
     @Override
@@ -27,6 +34,14 @@ public final class MagicFishPool extends JavaPlugin {
         } catch (IOException ignored) {
             Bukkit.getLogger().log(Level.WARNING, "Plugins directory does not found.");
         }
+        createHandlers();
+        ItemManager.initializeAllItems();
+        LocationManager.initializeAllLocations();
+    }
+
+    private void createHandlers() {
+        itemConfigHandler = new ItemConfigHandler();
+        mainConfigHandler = new MainConfigHandler();
     }
 
     private void createFiles() throws IOException {
@@ -73,6 +88,14 @@ public final class MagicFishPool extends JavaPlugin {
     @Contract("_ -> new")
     public static @NotNull String formatStringColor(@NotNull String str) {
         return ChatColor.translateAlternateColorCodes('&', str);
+    }
+
+    public ConfigHandler getItemConfigHandler() {
+        return itemConfigHandler;
+    }
+
+    public MainConfigHandler getMainConfigHandler() {
+        return mainConfigHandler;
     }
 
     public Random getRandom() {

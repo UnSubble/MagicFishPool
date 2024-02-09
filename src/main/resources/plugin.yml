@@ -1,6 +1,6 @@
 name: MagicFishPool
 version: '${project.version}'
-main: com.unsubble.magicfishpool.MagicFishPool
+main: com.unsubble.magicfishpool.Main
 api-version: '1.16'
 authors: [unsubble]
-description: Create magic pools. 'Cause it's pretty cool!
+description: Create magic pools. 'Cause it's pretty cool

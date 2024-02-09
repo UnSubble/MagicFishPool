@@ -1,0 +1,6 @@
+item1:
+  name: "&5sample"
+  type: "salmon"
+  chance: 2
+  rarity: "common"
+  lore: ["line1","line2","line3","line4"]

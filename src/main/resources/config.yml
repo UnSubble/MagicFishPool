@@ -1,0 +1,4 @@
+settings:
+  language: en
+  validWorlds: ["world"]
+  locations:
