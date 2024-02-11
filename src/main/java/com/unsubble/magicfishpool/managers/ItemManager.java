@@ -17,20 +17,24 @@ import java.util.*;
 public final class ItemManager {
     private static final ConfigHandler configHandler = MagicFishPool.getInstance().getItemConfigHandler();
     private static Iterator<String> nextItem;
-    @SuppressWarnings("unchecked")
-    private static final EnumMap<Rarity, List<Item>> itemRarityMap = new EnumMap<>(List.class);
+    private static final Map<Rarity, List<Item>> itemRarityMap = new EnumMap<>(Rarity.class);
 
     private ItemManager() {
     }
 
-    public static @Nullable Item createNextItem() {
+    private static @Nullable Item getNextItem() {
         if (nextItem == null)
-            reset();
+            resetIterator();
+
+        Objects.requireNonNull(nextItem);
 
         if (!nextItem.hasNext())
             return null;
 
         ConfigurationSection itemSection = configHandler.getSection(nextItem.next());
+
+        if (itemSection == null)
+            return null;
 
         String raritySection = Objects.requireNonNull(itemSection.getString("rarity")).toUpperCase();
         Rarity rarity = toRarity(raritySection);
@@ -50,9 +54,9 @@ public final class ItemManager {
     }
 
     public static void initializeAllItems() {
-        reset();
+        resetIterator();
         Item item;
-        while ((item = createNextItem()) != null) {
+        while ((item = getNextItem()) != null) {
             List<Item> itemListByRarity = itemRarityMap.computeIfAbsent(item.getRarity(), x -> new ArrayList<>());
             itemListByRarity.add(item);
         }
@@ -77,7 +81,7 @@ public final class ItemManager {
         return Rarity.valueOf(str);
     }
 
-    public static void reset() {
+    public static void resetIterator() {
         nextItem = configHandler.getKeys().iterator();
     }
 

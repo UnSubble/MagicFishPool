@@ -17,7 +17,7 @@ public final class CatchingAFishListener implements Listener {
     public void onCatch(@NotNull PlayerFishEvent event) {
         if (event.getCaught() == null)
             return;
-        if (LocationManager.getLocationsByWorlds().containsKey(event.getPlayer().getWorld()))
+        if (LocationManager.getLocationSet().contains(event.getCaught().getLocation()))
             Bukkit.getScheduler().runTaskAsynchronously(MagicFishPool.getInstance(), new PlayerFishEventHandler(event.getCaught(), event.getPlayer()));
     }
 }

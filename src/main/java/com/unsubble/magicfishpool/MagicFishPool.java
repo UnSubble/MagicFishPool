@@ -82,7 +82,7 @@ public final class MagicFishPool extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        LocationManager.saveAllLocations();
     }
 
     @Contract("_ -> new")
